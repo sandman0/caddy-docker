@@ -1,18 +1,18 @@
 FROM alpine:3.8
-MAINTAINER Adriel Kloppenburg
+MAINTAINER Sandeep Chaturvedi
 
 LABEL caddy_version="0.11.4" architecture="amd64"
 
-ARG plugins=http.filter,http.git,tls.dns.cloudflare
+ARG plugins=http.filter,http.git,tls.dns.namecheap
 
 RUN apk add --no-cache git tar curl
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-      "https://caddyserver.com/download/linux/amd64?plugins=${plugins}&license=personal&telemetry=on" \
+      "https://caddyserver.com/download/linux/amd64?plugins=${plugins}&license=personal&telemetry=off" \
     | tar --no-same-owner -C /usr/bin/ -xz caddy \
  && chmod 0755 /usr/bin/caddy \
- && /usr/bin/caddy -version
+ && /usr/bin/caddy -version && /usr/bin/caddy -plugins
 
 EXPOSE 80 443 2015
 VOLUME /root/.caddy /srv
