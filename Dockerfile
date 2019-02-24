@@ -3,7 +3,7 @@ MAINTAINER Sandeep Chaturvedi
 
 LABEL caddy_version="0.11.4" architecture="amd64"
 
-ARG plugins=http.filter,http.git,tls.dns.namecheap
+ARG plugins=http.filter,http.git,tls.dns.namecheap,tls.dns.cloudflare
 
 RUN apk add --no-cache git tar curl
 
