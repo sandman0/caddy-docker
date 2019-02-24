@@ -1,15 +1,13 @@
 # Caddy
 
-A [Docker](http://docker.com) image for [Caddy](http://caddyserver.com). This image includes the [git](https://caddyserver.com/docs/http.git), [http.filter](https://caddyserver.com/docs/http.filter) and [cloudflare](https://caddyserver.com/docs/tls.dns.cloudflare) plugins.  Plugins can also be configured via the `plugins` build arg.
+A [Docker](http://docker.com) image for [Caddy](http://caddyserver.com). This image includes the [git](https://caddyserver.com/docs/http.git), [http.filter](https://caddyserver.com/docs/http.filter) and [namecheap](https://caddyserver.com/docs/tls.dns.namecheap) plugins.  Plugins can also be configured via the `plugins` build arg.
 
 ### Credit
 
-A big thank you to [abiosoft](https://github.com/abiosoft/caddy-docker) whos this image is forked off.
-
-[![](https://images.microbadger.com/badges/image/adriel/caddy.svg)](https://microbadger.com/images/adriel/caddy) 	 
+A big thank you to [adriel](https://github.com/adriel/caddy-docker) whos this image is forked off.
 
 ### Telemetry
-Telemetry has been enabled by default on this image! If you do not want this please use another docker image.
+Telemetry has been disabled by default on this image!
 
 ### Getting Started
 
@@ -30,7 +28,7 @@ $ docker run -d \
     -v $(pwd)/Caddyfile:/etc/Caddyfile \
     -v $HOME/.caddy:/root/.caddy \
     -p 80:80 -p 443:443 \
-    adriel/caddy
+    sandman0/caddy
 ```
 
 
@@ -43,33 +41,15 @@ $ docker run -d \
     -e "CADDYPATH=/etc/caddycerts" \
     -v $HOME/.caddy:/etc/caddycerts \
     -p 80:80 -p 443:443 \
-    adriel/caddy
+    sandman0/caddy
 ```
 
 Above, we utilize the `CADDYPATH` environment variable to define a different location inside the container for
 certificates to be stored. This is probably the safest option as it ensures any future docker image changes don't interfere with your ability to save certificates!
 
-### PHP
-`:[<version>-]php` variant of this image bundles PHP-FPM alongside essential php extensions and [composer](https://getcomposer.org). e.g. `:php`, `:0.10-php`
-```sh
-$ docker run -d -p 2015:2015 adriel/caddy:php
-```
-Point your browser to `http://127.0.0.1:2015` and you will see a php info page.
+### Using Namecheap
 
-##### Local php source
-
-Replace `/path/to/php/src` with your php sources directory.
-```sh
-$ docker run -d -v /path/to/php/src:/srv -p 2015:2015 adriel/caddy:php
-```
-Point your browser to `http://127.0.0.1:2015`.
-
-##### Note
-Your `Caddyfile` must include the line `on startup php-fpm7`. For Caddy to be PID 1 in the container, php-fpm7 could not be started.
-
-### Using Cloudflare
-
-Caddy can talk to Cloudflare via their API to automaticly confugure/update your Let's Encrypt certificates using the Cloudflare plugin (which has been included in this image).
+Caddy can talk to Namecheap via their API to automaticly confugure/update your Let's Encrypt certificates using the Namecheap plugin (which has been included in this image).
 
 Follow the [instrutions here](https://caddyserver.com/docs/automatic-https#enabling-the-dns-challenge) to set it up.
 
@@ -88,7 +68,7 @@ $ printf "0.0.0.0\nroot src\ngit github.com/adriel/webtest" > Caddyfile
 ##### Run the image
 
 ```sh
-$ docker run -d -v $(pwd)/Caddyfile:/etc/Caddyfile -p 2015:2015 abiosoft/caddy
+$ docker run -d -v $(pwd)/Caddyfile:/etc/Caddyfile -p 2015:2015 sandman0/caddy
 ```
 Point your browser to `http://127.0.0.1:2015`.
 
@@ -102,7 +82,6 @@ The image contains a default Caddyfile.
 0.0.0.0
 browse
 fastcgi / 127.0.0.1:9000 php # php variant only
-startup php-fpm7 # php variant only
 ```
 The last 2 lines are only present in the php variant.
 
@@ -121,7 +100,7 @@ $ docker run -d \
     -v /path/to/sites/root:/srv \
     -v path/to/Caddyfile:/etc/Caddyfile \
     -p 2015:2015 \
-    abiosoft/caddy
+    sandman0/caddy
 ```
 
 ### Let's Encrypt Auto SSL
@@ -142,5 +121,5 @@ You can change the the ports if ports 80 and 443 are not available on host. e.g.
 $ docker run -d \
     -v $(pwd)/Caddyfile:/etc/Caddyfile \
     -p 80:80 -p 443:443 \
-    abiosoft/caddy
+    sandman0/caddy
 ```
