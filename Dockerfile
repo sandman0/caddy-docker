@@ -5,7 +5,14 @@ LABEL caddy_version="0.11.4" architecture="amd64"
 
 ARG plugins=http.filter,http.git,tls.dns.namecheap,tls.dns.cloudflare
 
-RUN apk add --no-cache git tar curl
+ENV TIMEZONE America/Edmonton
+
+
+RUN apk --update add --no-cache git tar curl .tz-deps tzdata \
+  && cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+  && echo ${TIMEZONE} > /etc/timezone \
+  && apk del .tz-deps
+
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
