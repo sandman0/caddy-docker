@@ -8,10 +8,9 @@ ARG plugins=http.filter,http.git,tls.dns.namecheap,tls.dns.cloudflare
 ENV TIMEZONE America/Edmonton
 
 
-RUN apk --update add --no-cache git tar curl .tz-deps tzdata \
+RUN apk --update add --no-cache git tar curl tzdata \
   && cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
-  && echo ${TIMEZONE} > /etc/timezone \
-  && apk del .tz-deps
+  && echo ${TIMEZONE} > /etc/timezone
 
 
 RUN curl --silent --show-error --fail --location \
